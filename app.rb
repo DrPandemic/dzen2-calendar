@@ -11,13 +11,9 @@ config = {
   date: DateTime.now.to_date,
 }
 
-def get_content(config)
-  "#{get_title(config)}\n#{get_header(config)}#{get_body(config)}"
-end
-
 def open(config)
   dzen_string = <<END
-    echo "#{get_content(config)}" | dzen2 \
+    echo "#{get_title(config)}\n#{get_header(config)}#{get_body(config)}" | dzen2 \
       -title-name "calendar" \
       -bg "#{config[:color0]}" \
       -fg "#{config[:color1]}" \

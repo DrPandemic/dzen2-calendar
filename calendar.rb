@@ -2,15 +2,22 @@ require 'date'
 require 'pry'
 
 class Cell
-  def initialize(content, config, highligh = false)
+  def initialize(content, config, highlight = false)
     @content = content
-    @highligh = highligh
+    @highlight = highlight
     @width = config[:width]
+    @color0 = config[:color0]
+    @color1 = config[:color1]
+  end
+
+  def content
+    return @content unless @highlight
+    "^fg(#{@color0})^bg(#{@color1})#{@content}^fg()^bg()"
   end
 
   def formatted(i)
     width = @width / 7 - @content.size
-    left_padding(width, i) + @content + right_padding(width) + line_return(i)
+    left_padding(width, i) + content + right_padding(width) + line_return(i)
   end
 
   def left_padding(width, i)
@@ -52,7 +59,7 @@ end
 
 def create_cell(day, config)
   date = Date.new(config[:date].year, config[:date].month, day)
-  Cell.new(day.to_s, config, DateTime.now == date)
+  Cell.new(day.to_s, config, DateTime.now.to_date == date)
 end
 
 def format_body(days, width)
