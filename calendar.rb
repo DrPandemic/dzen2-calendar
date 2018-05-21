@@ -38,7 +38,26 @@ class Cell
 end
 
 def get_title(config)
-    "<   #{Date.new(config[:year], config[:month], 1).strftime('%B')} #{config[:year]}   >"
+  prev_el = "^ca(1, #{call_calendar(config, true)}) <   ^ca()"
+  next_el = "^ca(1, #{call_calendar(config, false)})   > ^ca()"
+  "#{prev_el}#{Date.new(config[:year], config[:month], 1).strftime('%B')} #{config[:year]}#{next_el}"
+end
+
+def call_calendar(config, previous)
+  date = Date.new(config[:year], config[:month], 1).prev_month(previous ? 1 : -1)
+  str = <<END
+dzen2-calendar \
+--bg '#{config[:color0]}' \
+--fg '#{config[:color1]}' \
+-x #{config[:x]} \
+-y #{config[:y]} \
+-w #{config[:width]} \
+-s #{config[:screen]} \
+--month #{date.month} \
+--year #{date.year} \
+--no-toggle
+END
+  str.strip
 end
 
 def get_header(config)

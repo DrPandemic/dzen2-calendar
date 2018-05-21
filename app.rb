@@ -14,12 +14,11 @@ def read_config(config)
       config[:color1] = color
     end
 
-    opts.on("-x", Integer, "X position") do |x|
-      puts x
+    opts.on("-x 1650", Integer, "X position") do |x|
       config[:x] = x
     end
 
-    opts.on("-y", Integer, "Y position") do |y|
+    opts.on("-y 810", Integer, "Y position") do |y|
       config[:y] = y
     end
 
@@ -31,27 +30,32 @@ def read_config(config)
       config[:screen] = screen
     end
 
-    opts.on("-y", "--year 1970", Integer, "Set the displayed year") do |year|
+    opts.on("--year 1970", Integer, "Set the displayed year") do |year|
       config[:year] = year
     end
 
-    opts.on("-m", "--month 2", Integer, "Set the displayed month") do |month|
+    opts.on("--month 2", Integer, "Set the displayed month") do |month|
       config[:month] = month
+    end
+
+    opts.on("--no-toggle" "Set if the calendar will be toggled") do
+      config[:toggle] = false
     end
   end.parse!
   config
 end
 
 def open(config)
+  content = "#{get_header(config)}#{get_body(config)}"
   dzen_string = <<END
-    echo "#{get_title(config)}\n#{get_header(config)}#{get_body(config)}" | dzen2 \
+    echo "#{get_title(config)}\n#{content}" | dzen2 \
       -title-name "calendar" \
       -bg "#{config[:color0]}" \
       -fg "#{config[:color1]}" \
       -x "#{config[:x]}" \
       -y "#{config[:y]}" \
       -h 30 \
-      -l 6 \
+      -l 7 \
       -w #{config[:width] * 10} \
       -tw #{config[:width] * 10} \
       -e "onstart=uncollapse;button3=exit" \
