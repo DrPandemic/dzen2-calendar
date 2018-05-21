@@ -1,0 +1,16 @@
+#!/bin/ruby
+require './app.rb'
+
+default_config = {
+  color0: '#0E0D15',
+  color1: '#DDDDDD',
+  x: -270,
+  y: 840,
+  screen: 1,
+  width: 26,
+  month: DateTime.now.month,
+  year: DateTime.now.year,
+}
+
+return if close
+open(read_config(default_config))

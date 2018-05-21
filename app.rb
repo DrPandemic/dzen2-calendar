@@ -1,15 +1,46 @@
 require 'date'
+require 'optparse'
 require './calendar.rb'
 
-config = {
-  color0: '#0E0D15',
-  color1: '#DDDDDD',
-  x: -250,
-  y: 840,
-  screen: 1,
-  width: 24,
-  date: DateTime.now.to_date,
-}
+def read_config(config)
+  OptionParser.new do |opts|
+    opts.banner = "Usage: dzen2-calendar [options]"
+
+    opts.on("--bg '#0E0D15'", "Set background color") do |color|
+      config[:color0] = color
+    end
+
+    opts.on("--fg '#DDDDDD'", "Set foreground color") do |color|
+      config[:color1] = color
+    end
+
+    opts.on("-x", Integer, "X position") do |x|
+      puts x
+      config[:x] = x
+    end
+
+    opts.on("-y", Integer, "Y position") do |y|
+      config[:y] = y
+    end
+
+    opts.on("-w", "--width 26", Integer, "Set calendar width") do |width|
+      config[:width] = width
+    end
+
+    opts.on("-s", "--screen 1", Integer, "Set screen on which the calendar is displayed") do |screen|
+      config[:screen] = screen
+    end
+
+    opts.on("-y", "--year 1970", Integer, "Set the displayed year") do |year|
+      config[:year] = year
+    end
+
+    opts.on("-m", "--month 2", Integer, "Set the displayed month") do |month|
+      config[:month] = month
+    end
+  end.parse!
+  config
+end
 
 def open(config)
   dzen_string = <<END
@@ -22,6 +53,7 @@ def open(config)
       -h 30 \
       -l 6 \
       -w #{config[:width] * 10} \
+      -tw #{config[:width] * 10} \
       -e "onstart=uncollapse;button3=exit" \
       -ta c \
       -sa l \
@@ -36,6 +68,3 @@ def close
   `pkill -f "dzen2 -title-name calendar"`
   $?.exitstatus == 0
 end
-
-return if close
-open(config)
