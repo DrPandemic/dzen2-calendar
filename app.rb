@@ -1,6 +1,6 @@
 require 'date'
 require 'optparse'
-require './calendar.rb'
+require_relative './calendar.rb'
 
 def read_config(config)
   OptionParser.new do |opts|

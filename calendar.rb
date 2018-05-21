@@ -1,5 +1,4 @@
 require 'date'
-require 'pry'
 
 class Cell
   def initialize(content, config, highlight = false)

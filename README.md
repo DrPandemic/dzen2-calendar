@@ -2,4 +2,4 @@
 ## Requirements
 - X
 - ruby
-- dzen
+- dzen2
