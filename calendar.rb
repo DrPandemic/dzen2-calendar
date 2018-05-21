@@ -5,13 +5,28 @@ class Cell
   def initialize(content, config, highligh = false)
     @content = content
     @highligh = highligh
-    @width = config[:width] / 7
+    @width = config[:width]
   end
 
   def formatted(i)
-    width = @width - @content.size
-    # pad + content + pad + line return
-    (' ' * (width / 2 + width % 2)) + @content + (' ' * (width / 2)) + ((i % 7) == 6 ? "\n" : '')
+    width = @width / 7 - @content.size
+    left_padding(width, i) + @content + right_padding(width) + line_return(i)
+  end
+
+  def left_padding(width, i)
+    if i % 7 == 0
+      ' ' * ((@width % 7) / 2)
+    else
+      ''
+    end + (' ' * (width / 2 + width % 2))
+  end
+
+  def right_padding(width)
+    (' ' * (width / 2))
+  end
+
+  def line_return(i)
+    ((i % 7) == 6 ? "\n" : '')
   end
 end
 
