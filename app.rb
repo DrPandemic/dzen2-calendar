@@ -38,7 +38,7 @@ def read_config(config)
       config[:month] = month
     end
 
-    opts.on("--no-toggle" "Set if the calendar will be toggled") do
+    opts.on("--no-toggle", "Determine if a new calendar should be opened after closing the previous one") do
       config[:toggle] = false
     end
   end.parse!
