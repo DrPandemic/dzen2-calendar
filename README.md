@@ -14,10 +14,10 @@ There's many optional arguments that can be passed to customize its behavior.
 Usage: dzen2-calendar [options]
         --bg '#0E0D15'               Set background color
         --fg '#DDDDDD'               Set foreground color
-    -x 1650                          X position
-    -y 810                           Y position
-    -w, --width 26                   Set calendar width
-    -s, --screen 1                   Set screen on which the calendar is displayed
+        -x 1650                      X position
+        -y 810                       Y position
+        -w, --width 26               Set calendar width
+        -s, --screen 1               Set screen on which the calendar is displayed
         --year 1970                  Set the displayed year
         --month 2                    Set the displayed month
         --no-toggle                  Determine if a new calendar should be opened after closing the previous one
